@@ -1,0 +1,97 @@
+# Programmers : Jincy Njenga
+# Course: CS 151, Dr. Kenyon
+# Due Date 3/29/23
+# Lab Assignment: 4
+# Problem Statement: determines the cost of each room based on length and width, fin
+# Data In:
+# Data Out: if the player or computer wins
+# Credits: n/a
+
+import random
+
+# defines function heads_tails
+def heads_tails():
+    # generates random integer 1 or 2, assigns value to coin_toss
+    coin_toss = random.randint(1, 2)
+    # if coin_toss == 1, player will equal username
+    # prints update to user
+    if coin_toss == 1:
+        player = input("What is your name")
+        print("it is heads", player, "will roll the die")
+        # returns player variable
+        return player
+    # if coin_toss equals 2, player will equal "computer"
+    # prints update to user
+    elif coin_toss == 2:
+        player = "computer"
+        print("It is tails", player,  "will roll the die")
+        # returns player variable
+    return player
+# Defines main function
+def main():
+    scores = [0, 0]
+    # allows user to kill loop
+    SENTINEL = 999
+    # rules of the game
+    print("In this game, you will compete against the computer.")
+    print("You will be heads, the computer will be tails")
+    print("The program will flip a coin to determine who goes first")
+    print("A player will roll a die, and that players name will be added to a list")
+    print("Whoever's name appears the most in the list, wins")
+
+    # list that will be filled with player names
+    list = ["Empty", "Empty", "Empty", "Empty", "Empty", "Empty"]
+    # gives user option to continue or to quit
+    yes_no = input("'do you wish to continue? enter 999 to exit")
+    while yes_no != SENTINEL:
+        # while loop until user score or computer score reaches 10
+        while scores[0] < 10 or scores[1] < 10:
+            # will continue loop until all spots in list are filled
+            while not list.count("Empty") == 0:
+                # calls function heads_tails to start coin toss
+                player = heads_tails()
+                # player rolls a random digit between 1 and 6 to determine spot in list
+                roll = random.randint(1, 6)
+                spot = roll - 1
+                # spot will fill with player name if spot is empty
+                if list[spot] == "Empty":
+                    list[spot] = player
+                    # prints updated list
+                    print(list)
+                # prints statement if spot is occupied
+                elif list[spot] != "Empty":
+                    print("the spot",spot, " is occupied")
+            # counts the number of times human name appears in list
+            num_times_user = list.count(player)
+            # counts the number of times "computer" appears in list
+            num_times_computer = list.count("computer")
+            # runs variable num_times_user, and num_times computer, and returns updated score
+            if num_times_user == 3 and num_times_computer == 3:
+                win_lose(scores, num_times_user, num_times_computer)
+            # runs variable num_times_user, and num_times_computer, and returns updated score
+            elif num_times_user >= 4 or num_times_computer >= 4:
+                win_lose(scores,num_times_user, num_times_computer)
+
+# defines function win_lose with parameters scores, num_times_user, and num_times_computer
+def win_lose(scores, num_times_user, num_times_computer):
+    # if num_times_user > num_times_computer, user score will increase by 5, computer score will increase by 0
+    # prints update to user
+    if num_times_user > num_times_computer:
+        print("You win this round")
+        scores[0] += 5
+        scores[1] += 0
+    # if num_times_user < num_times_computer, user score will increase by 0, computer score will increase by 5
+    # prints update to user
+    elif num_times_user < num_times_computer:
+        print("The computer wins this round")
+        scores[0] += 0
+        scores[1] += 5
+    # if num_times_user == num_times_computer, user score will increase by 1, computer score will increase by 1
+    # prints update to user
+    elif num_times_user == num_times_computer:
+        print("It is a tie")
+        scores[0] += 1
+        scores[1] += 1
+    return scores
+
+main()
